@@ -1,15 +1,39 @@
 Etapa 3:
 *** Consideraciones generales
 
-En la última etapa del proyecto, se debe completar el desarrollo del servidor utilizando Node.js con Express y Mongoose como ODM para interactuar con MongoDB. Para ello, es necesario implementar el código del servidor siguiendo el patrón de arquitectura MVC (Modelo-Vista-Controlador), dividiéndolo en capas y creando las carpetas y archivos correspondientes para cada una de ellas.
+En la última etapa del proyecto, se debe completar el desarrollo del servidor utilizando 
+Node.js con Express y Mongoose como ODM para interactuar con MongoDB. 
+Para ello, es necesario implementar el código del servidor siguiendo
+ el patrón de arquitectura MVC (Modelo-Vista-Controlador), 
+ dividiéndolo en capas y creando las carpetas y archivos 
+ correspondientes para cada una de ellas.
 
-Se debe configurar el servidor para permitir realizar un CRUD sobre el caso de uso de productos en la base de datos utilizando los métodos GET, POST, PUT y DELETE, según corresponda. También se pueden adicionar otros casos de uso como sucursales, promociones o medios de pago.
+Se debe configurar el servidor para permitir realizar un 
+CRUD sobre el caso de uso de productos en la base de datos 
+utilizando los métodos GET, POST, PUT y DELETE, según corresponda.
+ También se pueden adicionar otros casos de uso como sucursales,
+  promociones o medios de pago.
 
-La base de datos a utilizar debe hacer uso del servicio de MongoDB Atlas. Para cada caso de uso se debe definir un modelo de datos y un esquema de documento. Es obligatoria la definición del modelo de datos productos y carrito, y además se pueden definir cualquier otro que se quiera. Se deberá disponer de un archivo para realizar la configuración del servidor, como el puerto de escucha, string de conexión hacia la base de datos, etc.
+La base de datos a utilizar debe hacer uso del servicio de MongoDB Atlas. 
+Para cada caso de uso se debe definir un modelo de datos y un esquema de documento. 
+Es obligatoria la definición del modelo de datos productos y carrito, y además se
+ pueden definir cualquier otro que se quiera. Se deberá disponer de un archivo 
+ para realizar la configuración del servidor, como el puerto de escucha, string 
+ de conexión hacia la base de datos, etc.
 
-Se debe añadir una ruta para subir, mediante el método post, y haciendo uso del formato JSON, un array con los productos contenidos en el carrito del frontend. La información recibida en el backend deberá mostrarse en la consola del servidor, luego debe almacenar dicha información en la base de datos. Al ser enviada la información del carrito, el mismo deberá vaciarse en el frontend.
+Se debe añadir una ruta para subir, mediante el método post, 
+y haciendo uso del formato JSON, un array con los productos contenidos en el carrito del frontend. 
+La información recibida en el backend deberá mostrarse en la consola del servidor, 
+luego debe almacenar dicha información en la base de datos. Al ser enviada la
+ información del carrito, 
+el mismo deberá vaciarse en el frontend.
 
-Finalmente, se debe crear un repositorio en Github, al cual se subirá el código fuente completo del proyecto. Se deberá subir el proyecto a Glitch, quedando funcionando de forma pública en la nube. Se deberá entregar el código fuente total en un zip (sin los node_modules), y las URL de Glitch y Github. 
+Finalmente, se debe crear un repositorio en Github, 
+al cual se subirá el código fuente completo del proyecto.
+Se deberá subir el proyecto a Glitch,
+ quedando funcionando de forma pública en la nube. 
+ Se deberá entregar el código fuente total en un zip
+  (sin los node_modules), y las URL de Glitch y Github. 
 
 *** Información adicional
 

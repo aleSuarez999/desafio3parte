@@ -20,7 +20,28 @@ export const getProducts = async (req, res) => {
                 ok: true,
                 msg: "Producto no encontrado"             
             })
+    }
+}
+
+export const getProductsById = async (req, res) => {
+    const { params: {id}, body } = req;
+    // obtengo el id para la busqueda
+    try {
         
+        const Query = id ? id : undefined
+        console.info("Se recibe params: ", id)
+        const products = await Products.findById(Query)
+
+        res.json({
+            ok: true,
+            products
+        })
+
+    } catch (error) {
+            res.status(404).json({
+                ok: true,
+                msg: "Producto no encontrado"             
+            })
     }
 
 

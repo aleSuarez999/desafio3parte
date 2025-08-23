@@ -20,8 +20,7 @@ const api = async() => {
     // defino controllers
     // defino rutas
     server.use("/api/products", productRoutes)
-
-
+ 
     // activo api
 
     server.listen(API_PORT, () => {

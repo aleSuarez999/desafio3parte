@@ -25,12 +25,13 @@ export const getProducts = async (req, res) => {
 }
 
 export const getProductsById = async (req, res) => {
-    const { id, ...body }  = req.query
+    //console.log(req.query.params)
+    const { params: {id}, body } = req;
     // obtengo el id para la busqueda
     try {
-        
-        const Query = id ? id : undefined
-        //console.info("Se recibe params: ", Query.id)
+        console.info("Se recibe id: ", id)
+        const Query = id 
+        console.info("Se recibe params: ", Query)
         const products = await Products.findById(Query)
 
         res.json({
@@ -77,3 +78,42 @@ export const createProduct = async (req, res) => {
     }
 }
 
+export const updateProduct = async (req, res) => {
+
+    const { params: {id}, body } = req;
+    //console.info("Id: ", id)
+    try {
+        const existsProduct = Products.findById(id)
+       // console.log("existe?", existsProduct)
+      //  console.info("Id: ", id)
+        if (!existsProduct || existsProduct.deletedAt)
+        { // si no existe o si está borrado
+            console.info("El producto no existe o está borrado")
+            res.status(404).json({
+                ok: false,
+                msg: "El producto no existe o está borrado"
+            })
+        }
+
+        const modProd = await Products.findByIdAndUpdate(
+            id, 
+            body,
+            { new: true }
+        )
+
+        res.json({
+            ok: true,
+            msg: "Producto modificado",
+            product: modProd
+        })
+
+    } catch (error) {
+        
+        res.status(400).json({
+            ok: false,
+            msg: "Error en el servidor",
+            error
+        })
+    }
+
+}

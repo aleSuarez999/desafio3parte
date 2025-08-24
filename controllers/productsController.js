@@ -117,3 +117,43 @@ export const updateProduct = async (req, res) => {
     }
 
 }
+
+export const deleteProduct = async (req, res) => {
+    console.info("llega a Delete")
+    const { params: {id}, body } = req;
+    
+    try {
+        const existsProduct = Products.findById(id)
+
+        if (!existsProduct || existsProduct.deletedAt)
+        { // si no existe o si está borrado
+            console.info("El producto no existe o está borrado")
+            res.status(404).json({
+                ok: false,
+                msg: "El producto no existe o está borrado"
+            })
+        }
+
+        const modProd = await Products.findByIdAndUpdate(
+            id, 
+            {deletedAt: new Date()},
+            // le agrego fecha de borrado
+            { new: true }
+        )
+
+        res.json({
+            ok: true,
+            msg: "Producto eliminado",
+            product: modProd
+        })
+
+    } catch (error) {
+        
+        res.status(400).json({
+            ok: false,
+            msg: "Error en el servidor",
+            error
+        })
+    }
+
+}

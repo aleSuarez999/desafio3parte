@@ -1,13 +1,15 @@
 import express from "express"
 import {body} from "express-validator"
 import { validationErrorResponse } from "../middleware/validateResponse.js"
-import { createProduct, getProducts, getProductsById, updateProduct } from "../controllers/productsController.js"
+import { createProduct, deleteProduct, getProducts, getProductsById, updateProduct } from "../controllers/productsController.js"
 
 const route = express.Router()
 
 route
     .get("/", getProducts)
+    .delete("/:id", deleteProduct)
     .get("/:id", getProductsById)
+    
     .post("/", [
         body("name").isString()
                 .isLength({min: 5, max: 50})
@@ -21,11 +23,9 @@ route
         body("ageTo").isNumeric().isLength({min:0, max: 99}).withMessage("Ingrese una edad valida"),
         body("image").isString().isLength({min:10, max: 300}).withMessage("Ingrese una url que corresponda a una imagen https://...."),
         validationErrorResponse
-                    
-    ], 
-        
-        createProduct)
- .put("/:id", [
+    ], createProduct)
+
+    .put("/:id", [
         body("name").isString()
                 .isLength({min: 5, max: 50})
                 .withMessage("Ingrese entre 5 y 50 Caracteres"),
@@ -37,10 +37,9 @@ route
         body("ageFrom").isNumeric().isLength({min:0, max: 99}).withMessage("Ingrese una edad valida"),
         body("ageTo").isNumeric().isLength({min:0, max: 99}).withMessage("Ingrese una edad valida"),
         //body("image").isString().isLength({min:10, max: 300}).withMessage("Ingrese una url que corresponda a una imagen https://...."),
-        body("image").isURL().withMessage("Ingrese una url que corresponda a una imagen https://...."),
+        //body("image").isURL().withMessage("Ingrese una url que corresponda a una imagen https://...."),
         validationErrorResponse
-                    
-    ], 
-        
-        updateProduct)
+    ], updateProduct)
+    
+    
 export default route

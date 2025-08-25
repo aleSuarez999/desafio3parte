@@ -39,11 +39,13 @@ Se deberá subir el proyecto a Glitch,
 
 Para cumplir con la implementación de un CRUD para el caso de uso de productos en la base de datos, utilizando los métodos GET, POST, PUT y DELETE, se deben definir las siguientes rutas en el servidor:
 
-Ruta GET '/api/products': Esta ruta permitirá obtener todos los productos existentes en la base de datos.
-Ruta GET '/api/products/:id': Esta ruta permitirá obtener un producto específico a través del ID proporcionado en la URL.
-Ruta POST '/api/products': Esta ruta permitirá agregar un nuevo producto a la base de datos.
-Ruta PUT '/api/products/:id': Esta ruta permitirá actualizar un producto existente en la base de datos, identificado a través del ID proporcionado en la URL.
-Ruta DELETE '/api/products/:id': Esta ruta permitirá eliminar un producto específico de la base de datos, identificado a través del ID proporcionado en la URL.
+OK Ruta GET '/api/products': Esta ruta permitirá obtener todos los productos existentes en la base de datos.
+OK  Ruta GET '/api/products/:id': Esta ruta permitirá obtener un producto específico a través del ID proporcionado en la URL.
+OK Ruta POST '/api/products': Esta ruta permitirá agregar un nuevo producto a la base de datos.
+OK Ruta PUT '/api/products/:id': Esta ruta permitirá actualizar un producto existente en la base de datos, 
+  identificado a través del ID proporcionado en la URL.
+OK Ruta DELETE '/api/products/:id': Esta ruta permitirá eliminar un producto específico de la base de datos,
+ identificado a través del ID proporcionado en la URL.
 
 Además se debe implementar una ruta POST '/api/cart' para almacenar el pedido que ha sido validado por el frontend.
 
@@ -54,6 +56,7 @@ Para ello, se deberá realizar lo siguiente:
 
 Se deberá generar una cuenta en Mercado Pago y obtener las credenciales necesarias para realizar la integración.
 Se deberá añadir un botón de pago en la página del producto, y llevar a cabo el checkout mediante la API de Mercado Pago.
-Se deberá configurar la página de éxito y la de cancelación, según corresponda, para notificar al cliente sobre el resultado de la transacción.
+Se deberá configurar la página de éxito y la de cancelación, según corresponda, 
+para notificar al cliente sobre el resultado de la transacción.
 
 La implementación de Mercado Pago es opcional y no afecta la entrega del proyecto en caso de no ser realizada.

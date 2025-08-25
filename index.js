@@ -3,6 +3,8 @@ import 'dotenv/config'
 import { dbConnection } from "./database/dbConnection.js"
 
 import productRoutes from "./routes/products.routes.js"
+import cartRoutes from "./routes/cart.routes.js"
+
 import cors from "cors"
 
 const server = express()
@@ -16,10 +18,14 @@ const api = async() => {
     // conexion a la db
     await dbConnection()
     // espero que se abra la base para continuar
-    // defino modelo
+    // defino modelo Products
     // defino controllers
     // defino rutas
     server.use("/api/products", productRoutes)
+    //defino modelo cart
+    // defino controller 
+    // defino rutas
+    server.use("/api/cart", cartRoutes)
  
     // activo api
 

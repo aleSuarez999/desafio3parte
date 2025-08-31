@@ -2,6 +2,8 @@ import { Products } from "../models/Products.js"
 import { Images } from "../models/Images.js"
 import fs from "fs"
 
+const BASE_URL_API = `http://localhost:${(process.env.PORT || 4000 )}/api`
+console.log(BASE_URL_API)
 export const getProducts = async (req, res) => {
     const { query }  = req
     // obtengo el query para la busqueda
@@ -88,7 +90,7 @@ export const createProduct = async (req, res) => {
 
         const newProd = await Products.create({
             ...body,
-            img: `${process.env.BASE_URL_API}/images/${image._id}`
+            img: `${BASE_URL_API}/images/${image._id}`
         })
 
         fs.rm("./" + file.path, error => {

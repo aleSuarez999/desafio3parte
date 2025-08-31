@@ -4,7 +4,8 @@ import { dbConnection } from "./database/dbConnection.js"
 
 import productRoutes from "./routes/products.routes.js"
 import cartRoutes from "./routes/cart.routes.js"
-import mpRoutes from "./routes/mp.routes.js"
+import messageRoutes from "./routes/message.routes.js"
+
 
 import cors from "cors"
 
@@ -20,20 +21,13 @@ const api = async() => {
     server.use(express.json()) 
     // conexion a la db
     await dbConnection()
-    // espero que se abra la base para continuar
-    // defino modelo Products
-    // defino controllers
-    // defino rutas
+
     server.use("/api/products", productRoutes)
-    //defino modelo cart
-    // defino controller 
-    // defino rutas
+   
     server.use("/api/cart", cartRoutes)
-    // configuro controller para MP
-    // agrego ultils mpago.js para llamada a la api desde al backend
-    // preparo ruta 
-    // agrego al index
-    server.use("/api/mp", mpRoutes) 
+
+    server.use("/api/contacts", messageRoutes)
+  
 
     server.listen(API_PORT, () => {
         console.log(`el servidor está corriendo en el puerto ${API_PORT}`)

@@ -29,9 +29,9 @@ export const getProductsById = async (req, res) => {
     const { params: {id}, body } = req;
     // obtengo el id para la busqueda
     try {
-        console.info("Se recibe id: ", id)
+        //console.info("Se recibe id: ", id)
         const Query = id 
-        console.info("Se recibe params: ", Query)
+        //console.info("Se recibe params: ", Query)
         const products = await Products.findById(Query)
 
         res.json({
@@ -50,7 +50,7 @@ export const getProductsById = async (req, res) => {
 export const createProduct = async (req, res) => {
 
     const { body }  = req
-    //console.info("createProduct: ", body)
+    console.info("createProduct: ", body)
     try {
 
         const prod = await Products.findOne({name: body.name})

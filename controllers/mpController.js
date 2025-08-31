@@ -2,7 +2,7 @@ import axios from "axios"
 // SDK de Mercado Pago
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 // Agrega credenciales
-
+// no se usa
 
 const BASE_URL_MP = process.env.BASE_URL_MP
 const API_TOKEN_MP = process.env.API_TOKEN_MP
@@ -11,7 +11,7 @@ const client = new MercadoPagoConfig({ accessToken: API_TOKEN_MP });
 
 export const createPreference = async (req, res) => {
 
-    console.log("bodyP: ", req.body)
+    //console.log("bodyP: ", req.body)
     const itemsData = req.body.body?.items || [];
 
     const body = {

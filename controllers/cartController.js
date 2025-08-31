@@ -3,7 +3,7 @@ import { Cart } from "../models/Cart.js"
 export const createCart = async  (req, res) => {
 
     const {body} = req
-    console.log(body.cart)
+   // console.log(body.cart)
     try {
         //alert(body)
        // console.log(body)

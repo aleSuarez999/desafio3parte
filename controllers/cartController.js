@@ -6,11 +6,12 @@ export const createCart = async  (req, res) => {
    // console.log(body.cart)
     try {
         //alert(body)
-       // console.log(body)
+        console.log(body)
         const cart = await Cart.create(body)
         res.json({
             ok: true, 
-            msg: "Producto agregado al carrito"
+            msg: "Producto agregado al carrito",
+            cart
         })
     } catch (error) {
         res.status(500).json({

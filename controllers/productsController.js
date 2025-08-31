@@ -3,7 +3,7 @@ import { Images } from "../models/Images.js"
 import fs from "fs"
 
 const BASE_URL_API = `http://localhost:${(process.env.PORT || 4000 )}/api`
-console.log(BASE_URL_API)
+//console.log(BASE_URL_API)
 export const getProducts = async (req, res) => {
     const { query }  = req
     // obtengo el query para la busqueda
@@ -67,7 +67,7 @@ export const createProduct = async (req, res) => {
         if (prod) {
             return res.status(400).json({
                 ok: false,
-                msg: "Ya existe un producto con este nombre."
+                msg: `Ya existe un producto con este nombre id: ${prod._id}`
             })
         }
 
@@ -104,7 +104,7 @@ export const createProduct = async (req, res) => {
             product: newProd
         }) 
     } catch (error) {
-        console.log("Error interno:", error)
+        //console.log("Error interno:", error)
         res.status(500).json({
             ok: false,
             msg: "Error de servidor."
@@ -112,15 +112,16 @@ export const createProduct = async (req, res) => {
     }
 }
 
-
+/*
 export const updateProduct = async (req, res) => {
 
-    const { params: {id}, body } = req;
-    //console.info("Id: ", id)
+    const { params: {id}, body, file } = req;
+
+    console.info("Id: ", id)
     try {
-        const existsProduct = Products.findById(id)
-       // console.log("existe?", existsProduct)
-      //  console.info("Id: ", id)
+        const existsProduct = await Products.findById(id)
+        console.log("existe?", existsProduct)
+        console.info("Id: ", id)
         if (!existsProduct || existsProduct.deletedAt)
         { // si no existe o si está borrado
             console.info("El producto no existe o está borrado")
@@ -129,13 +130,34 @@ export const updateProduct = async (req, res) => {
                 msg: "El producto no existe o está borrado"
             })
         }
+        if (file)
+        {
+            const imageBuffer = fs.readFileSync("./" + file.path)
 
+            const image = await Images.create({
+                fileName: file.filename,
+                img: {
+                    data: imageBuffer,
+                    contentType: "image/png"
+                }
+            })
+        }
         const modProd = await Products.findByIdAndUpdate(
             id, 
             body,
             { new: true }
         )
 
+          
+        const newProd = await Products.create({
+            ...body,
+            img: `${BASE_URL_API}/images/${image._id}`
+        })
+
+        fs.rm("./" + file.path, error => {
+            if (error) console.log("Lo sentimos, no hemos podido eliminar la imagen temporal")
+            else console.log("El archivo se eliminó correctamente.")
+        })
         res.json({
             ok: true,
             msg: "Producto modificado",
@@ -152,9 +174,12 @@ export const updateProduct = async (req, res) => {
     }
 
 }
+*/
+
+
 
 export const deleteProduct = async (req, res) => {
-    console.info("llega a Delete")
+   // console.info("llega a Delete")
     const { params: {id}, body } = req;
     
     try {
@@ -190,5 +215,130 @@ export const deleteProduct = async (req, res) => {
             error
         })
     }
+
+}
+
+// nuevo con el file
+
+export const updateProduct = async (req, res) => {
+
+    //se desestructura file 
+const { params: {id}, body, file } = req;
+
+
+try {
+    
+    const existsProduct = await Products.findById(id)
+    console.log("existe", existsProduct)
+
+    if (!existsProduct || existsProduct.deletedAt) { 
+            // si no existe o si está borrado
+            console.info("El producto no existe o está borrado");
+            return res.status(404).json({
+                ok: false,
+                msg: "El producto no existe o está borrado"
+            });
+    }
+
+    // prueba intermedia
+    /*
+        return res.json({
+            ok: true,
+            msg: "El producto existe . validando modificacion"
+        });
+      */  
+        ///////////////////////////////////////////////////
+        // datos para actualizacion
+        const updateData = { ...body };
+
+        if (file) {
+            try {
+                const imageBuffer = fs.readFileSync("./" + file.path);
+                // Crear nueva imagen en la base de datos
+                // ver mas adelante array de imagenes como se hace
+                const image = await Images.create({
+                
+                    fileName: file.filename,
+                    img: {
+                        data: imageBuffer,
+                        contentType: "image/png"
+                    }
+                });
+
+                if (!image) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: "La imagen no se guardó correctamente."
+                    });
+                }
+                // si la imagen se guardó en el temporal
+                updateData.img = `${BASE_URL_API}/images/${image._id}`;
+                console.log("Nueva imagen guardada con ID:", image._id);
+
+                fs.rm("./" + file.path, error => {
+                    if (error) console.log("Lo sentimos, no hemos podido eliminar la imagen temporal");
+                    else console.log("El archivo se eliminó correctamente.");
+                });
+
+            } catch (error) {
+                
+                console.log("Error procesando imagen:", imageError);
+                return res.status(400).json({
+                    ok: false,
+                    msg: "La imagen no se guardó correctamente."
+                });
+
+
+            }
+        }
+        else // del if file
+        {
+            console.log("No se envió nueva imagen - se mantiene la existente");
+        }
+
+       // actualizar
+        console.log("Datos a actualizar:", updateData);
+
+        const updatedProduct = await Products.findByIdAndUpdate(
+            id, 
+            { $set: updateData }, // set actualiza y deja los que estaban
+            {
+                new: true, // devuelve el nuevo
+            }
+        )
+        // si no va al catch pero da error
+        if (!updatedProduct) {
+            return res.status(500).json({
+                ok: false,
+                msg: "Error al actualizar el producto."
+            });
+        }
+
+        console.log("Producto actualizado exitosamente");
+        if (existsProduct.img) // para no perder los productos anteriors con image
+        {
+            const previousImageId = existsProduct.img.split('/').at(-1); // la ultima parte del url
+
+            if (previousImageId) {
+                Images.findByIdAndDelete(previousImageId)
+                    .then(deleted => {
+                    if (deleted) console.log("Imagen anterior eliminada:", previousImageId);
+                    })
+                    .catch(err => console.log("Error eliminando imagen anterior:", err));
+            }
+        }
+        res.json({
+            ok: true,
+            msg: "Producto actualizado.",
+            product: updatedProduct
+        });
+
+} catch (error) {
+   // console.log("Error interno:", error);
+        res.status(500).json({
+            ok: false,
+            msg: "Error de servidor."
+        });
+}
 
 }

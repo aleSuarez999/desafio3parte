@@ -11,8 +11,9 @@ route
     .delete("/:id", deleteProduct)
     .get("/:id", getProductsById)
     .post("/", upload.single("image"), createProduct)
+    .put("/:id", upload.single("image"), updateProduct)
     /*
-    .post("/", [
+       .post("/", [
         body("name").isString()
                 .isLength({min: 5, max: 50})
                 .withMessage("Ingrese entre 5 y 50 Caracteres"),
@@ -27,6 +28,7 @@ route
         validationErrorResponse
     ], createProduct)
 */
+/*
     .put("/:id", [
         body("name").isString()
                 .isLength({min: 5, max: 50})
@@ -38,10 +40,8 @@ route
         body("shortDescription").isString().isLength({min: 3, max: 150}).withMessage("Ingrese un texto entre 3 y 50 caracteres"),
         body("ageFrom").isNumeric().isLength({min:0, max: 99}).withMessage("Ingrese una edad valida"),
         body("ageTo").isNumeric().isLength({min:0, max: 99}).withMessage("Ingrese una edad valida"),
-        //body("image").isString().isLength({min:10, max: 300}).withMessage("Ingrese una url que corresponda a una imagen https://...."),
-        //body("image").isURL().withMessage("Ingrese una url que corresponda a una imagen https://...."),
         validationErrorResponse
     ], updateProduct)
-    
+    */
     
 export default route

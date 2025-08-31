@@ -6,7 +6,7 @@ export const createCart = async  (req, res) => {
    // console.log(body.cart)
     try {
         //alert(body)
-        console.log(body)
+        console.log("createCart -> ", body)
         const cart = await Cart.create(body)
         res.json({
             ok: true, 

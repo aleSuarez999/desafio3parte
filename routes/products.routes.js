@@ -2,6 +2,7 @@ import express from "express"
 import {body} from "express-validator"
 import { validationErrorResponse } from "../middleware/validateResponse.js"
 import { createProduct, deleteProduct, getProducts, getProductsById, updateProduct } from "../controllers/productsController.js"
+import upload from "../utils/storage.js"
 
 const route = express.Router()
 
@@ -9,7 +10,8 @@ route
     .get("/", getProducts)
     .delete("/:id", deleteProduct)
     .get("/:id", getProductsById)
-    
+    .post("/", upload.single("image"), createProduct)
+    /*
     .post("/", [
         body("name").isString()
                 .isLength({min: 5, max: 50})
@@ -21,10 +23,10 @@ route
         body("shortDescription").isString().isLength({min: 3, max: 50}).withMessage("Ingrese un texto entre 3 y 50 caracteres"),
         body("ageFrom").isNumeric().isLength({min:0, max: 99}).withMessage("Ingrese una edad valida"),
         body("ageTo").isNumeric().isLength({min:0, max: 99}).withMessage("Ingrese una edad valida"),
-        body("image").isString().isLength({min:10, max: 300}).withMessage("Ingrese una url que corresponda a una imagen https://...."),
+       
         validationErrorResponse
     ], createProduct)
-
+*/
     .put("/:id", [
         body("name").isString()
                 .isLength({min: 5, max: 50})

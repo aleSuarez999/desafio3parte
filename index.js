@@ -5,7 +5,7 @@ import { dbConnection } from "./database/dbConnection.js"
 import productRoutes from "./routes/products.routes.js"
 import cartRoutes from "./routes/cart.routes.js"
 import messageRoutes from "./routes/message.routes.js"
-
+import imageRoutes from "./routes/image.routes.js"
 
 import cors from "cors"
 
@@ -21,6 +21,8 @@ const api = async() => {
     server.use(express.json()) 
     // conexion a la db
     await dbConnection()
+
+    server.use("/api/images", imageRoutes)
 
     server.use("/api/products", productRoutes)
    

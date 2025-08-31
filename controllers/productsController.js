@@ -1,6 +1,6 @@
-import { faSlash } from "@fortawesome/free-solid-svg-icons"
 import { Products } from "../models/Products.js"
-
+import { Images } from "../models/Images.js"
+import fs from "fs"
 
 export const getProducts = async (req, res) => {
     const { query }  = req
@@ -47,36 +47,69 @@ export const getProductsById = async (req, res) => {
     }
 }
 
-export const createProduct = async (req, res) => {
 
-    const { body }  = req
-    console.info("createProduct: ", body)
+export const createProduct = async (req, res) => {
+    const {body, file} = req
+
     try {
 
-        const prod = await Products.findOne({name: body.name})
-        if (prod) {
-            console.error("Producto duplicado")
-             return res.status(409).json({
+        if (!file) {
+            return res.status(400).json({
                 ok: false,
-                msg: "El producto ya existe"
+                msg: "La imagen no se guardó correctamente."
             })
         }
 
-        const newProd = await Products.create(body)
+        const prod = await Products.findOne({name: body.name})
 
-        return res.json({
-            ok: true,
-            msg: "Producto creado Correctamente",
-            newProd
+        if (prod) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Ya existe un producto con este nombre."
+            })
+        }
+
+        const imageBuffer = fs.readFileSync("./" + file.path)
+
+        const image = await Images.create({
+            fileName: file.filename,
+            img: {
+                data: imageBuffer,
+                contentType: "image/png"
+            }
         })
 
-    } catch (error) {
-          return res.status(500).json({
+        if (!image) {
+            return res.status(400).json({
                 ok: false,
-                msg: `createProduct ${error}`
+                msg: "La imagen no se guardó correctamente."
             })
+        }
+
+        const newProd = await Products.create({
+            ...body,
+            img: `${process.env.BASE_URL_API}/images/${image._id}`
+        })
+
+        fs.rm("./" + file.path, error => {
+            if (error) console.log("Lo sentimos, no hemos podido eliminar la imagen temporal")
+            else console.log("El archivo se eliminó correctamente.")
+        })
+
+        res.json({
+            ok: true,
+            msg: "Producto creado correctamente.",
+            product: newProd
+        }) 
+    } catch (error) {
+        console.log("Error interno:", error)
+        res.status(500).json({
+            ok: false,
+            msg: "Error de servidor."
+        })
     }
 }
+
 
 export const updateProduct = async (req, res) => {
 

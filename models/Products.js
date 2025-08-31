@@ -37,18 +37,16 @@ const ProductSchema = new Schema({
         type: Boolean,
         default: false
     },
-    image: {
+    img: {
         type: String,
-        required: false
+        required: true
     },
 
     ageFrom: {
-        type: Number,
-        required: false
+        type: Number
     },
     ageTo: {
-        type: Number,
-        required: false
+        type: Number
     }
     ,
     deletedAt: {

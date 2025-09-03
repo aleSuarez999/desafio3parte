@@ -11,6 +11,6 @@ const ImageSchema = new Schema({
         data: Buffer,
         contentType: String
     }
-})
+}, {timestamps: true})
 
 export const Images = model("Image", ImageSchema)

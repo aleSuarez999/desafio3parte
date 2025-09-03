@@ -2,8 +2,8 @@ import { Products } from "../models/Products.js"
 import { Images } from "../models/Images.js"
 import fs from "fs"
 
+const BASE_URL_API = process.env.BASE_URL_API
 
-//console.log(BASE_URL_API)
 export const getProducts = async (req, res) => {
     const { query }  = req
     // obtengo el query para la busqueda

@@ -15,6 +15,7 @@ const api = async() => {
 
     //const API_PORT = process.env.API_PORT 
    
+    const BASE_URL_API = process.env.BASE_URL_API
     const API_PORT = (process.env.PORT || 4000 )
     
     // defino puerto en el .env

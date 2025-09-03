@@ -54,7 +54,7 @@ export const createProduct = async (req, res) => {
     const {body, file} = req
 
     try {
-
+        console.log(file)
         if (!file) {
             return res.status(400).json({
                 ok: false,

@@ -87,7 +87,7 @@ export const createProduct = async (req, res) => {
                 msg: "La imagen no se guardó correctamente."
             })
         }
-
+        console.log(`url_api_imagenes->${BASE_URL_API}/images/${image._id}`)
         const newProd = await Products.create({
             ...body,
             img: `${BASE_URL_API}/images/${image._id}`
@@ -104,7 +104,7 @@ export const createProduct = async (req, res) => {
             product: newProd
         }) 
     } catch (error) {
-        //console.log("Error interno:", error)
+        console.log("Error interno:", error)
         res.status(500).json({
             ok: false,
             msg: "Error de servidor.",

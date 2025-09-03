@@ -107,7 +107,8 @@ export const createProduct = async (req, res) => {
         //console.log("Error interno:", error)
         res.status(500).json({
             ok: false,
-            msg: "Error de servidor."
+            msg: "Error de servidor.",
+            error
         })
     }
 }

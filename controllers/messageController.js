@@ -19,7 +19,26 @@ export const sendMessage = async (req, res) => {
             error
         }) 
     }
+}
 
+export const getMessages = async (req, res) => {
 
+    try {
+        const messages = await Messages.find()
 
+        if (messages)
+        {
+            res.json({
+                ok: true,
+                msg: "Mensajes obtenidos",
+                messages
+            })
+        }
+        
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: "Error al obterner los mensajes"
+        })
+    }
 }

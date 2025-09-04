@@ -3,7 +3,7 @@ import { Images } from "../models/Images.js"
 import fs from "fs"
 
 const BASE_URL_API = process.env.BASE_URL_API
-
+// url para llamada interna de imagen
 export const getProducts = async (req, res) => {
     const { query }  = req
     // obtengo el query para la busqueda
@@ -54,7 +54,7 @@ export const createProduct = async (req, res) => {
     const {body, file} = req
 
     try {
-        console.log(file)
+        //console.log(file)
         if (!file) {
             return res.status(400).json({
                 ok: false,
@@ -87,7 +87,7 @@ export const createProduct = async (req, res) => {
                 msg: "La imagen no se guardó correctamente."
             })
         }
-        console.log(`url_api_imagenes->${BASE_URL_API}/images/${image._id}`)
+        // Verificacion console.log(`url_api_imagenes->${BASE_URL_API}/images/${image._id}`)
         const newProd = await Products.create({
             ...body,
             img: `${BASE_URL_API}/images/${image._id}`
@@ -113,71 +113,6 @@ export const createProduct = async (req, res) => {
     }
 }
 
-/*
-export const updateProduct = async (req, res) => {
-
-    const { params: {id}, body, file } = req;
-
-    console.info("Id: ", id)
-    try {
-        const existsProduct = await Products.findById(id)
-        console.log("existe?", existsProduct)
-        console.info("Id: ", id)
-        if (!existsProduct || existsProduct.deletedAt)
-        { // si no existe o si está borrado
-            console.info("El producto no existe o está borrado")
-            res.status(404).json({
-                ok: false,
-                msg: "El producto no existe o está borrado"
-            })
-        }
-        if (file)
-        {
-            const imageBuffer = fs.readFileSync("./" + file.path)
-
-            const image = await Images.create({
-                fileName: file.filename,
-                img: {
-                    data: imageBuffer,
-                    contentType: "image/png"
-                }
-            })
-        }
-        const modProd = await Products.findByIdAndUpdate(
-            id, 
-            body,
-            { new: true }
-        )
-
-          
-        const newProd = await Products.create({
-            ...body,
-            img: `${BASE_URL_API}/images/${image._id}`
-        })
-
-        fs.rm("./" + file.path, error => {
-            if (error) console.log("Lo sentimos, no hemos podido eliminar la imagen temporal")
-            else console.log("El archivo se eliminó correctamente.")
-        })
-        res.json({
-            ok: true,
-            msg: "Producto modificado",
-            product: modProd
-        })
-
-    } catch (error) {
-        
-        res.status(400).json({
-            ok: false,
-            msg: "Error en el servidor",
-            error
-        })
-    }
-
-}
-*/
-
-
 
 export const deleteProduct = async (req, res) => {
    // console.info("llega a Delete")
@@ -198,7 +133,7 @@ export const deleteProduct = async (req, res) => {
         const modProd = await Products.findByIdAndUpdate(
             id, 
             {deletedAt: new Date()},
-            // le agrego fecha de borrado
+            // le agrego fecha de borrado y devuelvo el objeto nuevo
             { new: true }
         )
 
@@ -219,7 +154,7 @@ export const deleteProduct = async (req, res) => {
 
 }
 
-// nuevo con el file
+// nuevo update con el file
 
 export const updateProduct = async (req, res) => {
 

@@ -3,7 +3,7 @@ import { Messages } from "../models/Messages.js"
 
 export const sendMessage = async (req, res) => {
     const {body} = req
-   // console.info(body)
+   // graba el mensaje de contactUs que manda el cliente
     try {
         const message = await Messages.create(body)
             res.json({
@@ -12,7 +12,7 @@ export const sendMessage = async (req, res) => {
         })      
        
     } catch (error) {
-       // console.error("NO SE GRABA" + error)
+            //console.error("NO SE GRABA" + error)
             res.status(500).json({
             ok: false, 
             msg: "Error al enviar mensaje",

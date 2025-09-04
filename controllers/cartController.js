@@ -3,9 +3,8 @@ import { Cart } from "../models/Cart.js"
 export const createCart = async  (req, res) => {
 
     const {body} = req
-    console.log(body.cart)
+    // quantity , prod  el ejercicio pide mostrar el carrito
     try {
-        //alert(body)
         console.log("createCart -> ", body)
         const cart = await Cart.create(body)
         res.json({
@@ -19,6 +18,5 @@ export const createCart = async  (req, res) => {
             msg: "Error del servidor"
         })
     }
-
-    
+   
 }
